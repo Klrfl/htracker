@@ -1,7 +1,7 @@
 <?php
 include("./koneksi.php");
 $id = 2;
-$stmt = $connection->prepare("select * from film_barbie where id=?");
+$stmt = $conn->prepare("select * from habits where id=?");
 $stmt->bind_param("s", $id);
 $stmt->execute();
 $result = $stmt->get_result();
@@ -21,7 +21,7 @@ $row = $result->fetch_assoc();
 
 <body>
 
-  <?= $row['judul'], $row['sinopsis']; ?>
+  <?= $row['nama_habit'], $row['deskripsi']; ?>
 
 
 </body>
