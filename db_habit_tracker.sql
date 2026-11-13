@@ -3,12 +3,11 @@ CREATE DATABASE IF NOT EXISTS db_habit_tracker
   COLLATE utf8mb4_unicode_ci;
 USE db_habit_tracker;
 
--- ===== BAGIAN KAMU (Otentikasi) =====
 CREATE TABLE users (
     id INT AUTO_INCREMENT PRIMARY KEY,
     username VARCHAR(50) NOT NULL UNIQUE,
     email VARCHAR(100) NOT NULL UNIQUE,
-    password VARCHAR(255) NOT NULL,              -- isi dengan hasil password_hash(), bukan teks asli
+    password VARCHAR(255) NOT NULL,
     nama_lengkap VARCHAR(100) NULL,
     role ENUM('user','admin') NOT NULL DEFAULT 'user',
     is_active TINYINT(1) NOT NULL DEFAULT 1,
@@ -17,7 +16,6 @@ CREATE TABLE users (
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB;
 
--- ===== BAGIAN TEMAN (Daftar habit di index.php) =====
 CREATE TABLE habits (
     id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT NOT NULL,
@@ -34,7 +32,6 @@ CREATE TABLE habits (
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 ) ENGINE=InnoDB;
 
--- ===== BAGIAN TEMAN (Catatan harian di detail.php) =====
 CREATE TABLE habit_logs (
     id INT AUTO_INCREMENT PRIMARY KEY,
     habit_id INT NOT NULL,
