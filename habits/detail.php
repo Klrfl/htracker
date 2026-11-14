@@ -73,15 +73,21 @@ $next = (clone $bt)->modify('+1 month')->format('Y-m');
 
 <div class="grid grid-cols-3 gap-2 mb-4">
   <div class="card bg-base-100 shadow-sm">
-    <div class="card-body p-3">
+    <div class="card-body p-3 grid grid-cols-2 grid-cols-[auto_1fr]">
+      <div class="row-span-2 text-4xl grid place-items-center">
+        🔥
+      </div>
       <p class="text-xs text-slate-500">Streak saat ini</p>
-      <p class="text-xl font-bold" data-streak-badge="habit-<?= (int)$habit['id'] ?>">🔥 <?= $streak['current'] ?> hari</p>
+      <p class="text-xl font-bold" data-streak-badge="habit-<?= (int)$habit['id'] ?>"><?= $streak['current'] ?> hari</p>
     </div>
   </div>
   <div class="card bg-base-100 shadow-sm">
-    <div class="card-body p-3">
+    <div class="card-body p-3 grid grid-cols-2 grid-cols-[auto_1fr]">
+      <div class="row-span-2 text-4xl grid place-items-center">
+        🏆
+      </div>
       <p class="text-xs text-slate-500">Streak terpanjang</p>
-      <p class="text-xl font-bold">🏆 <?= $streak['longest'] ?> hari</p>
+      <p class="text-xl font-bold"><?= $streak['longest'] ?> hari</p>
     </div>
   </div>
   <div class="card bg-base-100 shadow-sm">

@@ -26,19 +26,22 @@ $arsip = array_filter($rows, fn($r) => (int)$r['is_active'] === 0);
   <?php if (!$aktif): ?>
     <p class="text-slate-500">Belum ada habit aktif. <a href="add.php" class="link">Tambah habit pertama</a>.</p>
   <?php endif; ?>
-  <div class="grid gap-2">
+
+  <ul class="grid gap-2">
     <?php foreach ($aktif as $h): ?>
-      <a href="detail.php?id=<?= (int)$h['id'] ?>" class="card bg-base-100 shadow-sm hover:bg-base-200 transition-colors">
-        <div class="card-body py-3 px-4 flex-row items-center justify-between">
-          <div class="flex items-center gap-2">
-            <span class="font-semibold"><?= htmlspecialchars($h['nama_habit']) ?></span>
-            <span class="badge badge-ghost badge-sm"><?= htmlspecialchars($h['kategori']) ?></span>
+      <li>
+        <a href="detail.php?id=<?= (int)$h['id'] ?>" class="card bg-base-100 shadow-sm hover:bg-base-200 transition-colors">
+          <div class="card-body py-3 px-4 flex-row items-center justify-between">
+            <div class="flex items-center gap-2">
+              <span class="font-semibold"><?= htmlspecialchars($h['nama_habit']) ?></span>
+              <span class="badge badge-ghost badge-sm"><?= htmlspecialchars($h['kategori']) ?></span>
+            </div>
+            <span class="text-sm text-slate-500"><?= (int)$h['total_selesai'] ?> hari selesai</span>
           </div>
-          <span class="text-sm text-slate-500"><?= (int)$h['total_selesai'] ?> hari selesai</span>
-        </div>
-      </a>
+        </a>
+      </li>
     <?php endforeach; ?>
-  </div>
+  </ul>
 </section>
 
 <section>
@@ -46,19 +49,22 @@ $arsip = array_filter($rows, fn($r) => (int)$r['is_active'] === 0);
   <?php if (!$arsip): ?>
     <p class="text-slate-500">Belum ada habit yang diarsipkan.</p>
   <?php endif; ?>
-  <div class="grid gap-2">
+
+  <ul class="grid gap-2">
     <?php foreach ($arsip as $h): ?>
-      <a href="detail.php?id=<?= (int)$h['id'] ?>" class="card bg-base-100 shadow-sm opacity-75">
-        <div class="card-body py-3 px-4 flex-row items-center justify-between">
-          <div class="flex items-center gap-2">
-            <span class="font-semibold"><?= htmlspecialchars($h['nama_habit']) ?></span>
-            <span class="badge badge-ghost badge-sm"><?= htmlspecialchars($h['kategori']) ?></span>
+      <li>
+        <a href="detail.php?id=<?= (int)$h['id'] ?>" class="card bg-base-100 shadow-sm opacity-75">
+          <div class="card-body py-3 px-4 flex-row items-center justify-between">
+            <div class="flex items-center gap-2">
+              <span class="font-semibold"><?= htmlspecialchars($h['nama_habit']) ?></span>
+              <span class="badge badge-ghost badge-sm"><?= htmlspecialchars($h['kategori']) ?></span>
+            </div>
+            <span class="text-sm text-slate-500"><?= (int)$h['total_selesai'] ?> hari selesai</span>
           </div>
-          <span class="text-sm text-slate-500"><?= (int)$h['total_selesai'] ?> hari selesai</span>
-        </div>
-      </a>
+        </a>
+      </li>
     <?php endforeach; ?>
-  </div>
+  </ul>
 </section>
 
 <?php include '../partials/footer.php'; ?>

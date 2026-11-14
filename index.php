@@ -60,12 +60,12 @@ foreach ($habits as $h) {
   </div>
 <?php endif; ?>
 
-<div class="grid gap-3">
+<ul class="grid gap-3">
   <?php foreach ($habits as $h):
     $done_today = in_array($hari_ini, $h['log'], true);
     $streak = hitung_streak($h['log'], $hari_ini, $h['mulai']);
   ?>
-    <div class="card bg-base-100 shadow-sm">
+    <li class="card bg-base-100 shadow-sm">
       <article class="card-body p-4 gap-3">
         <header class="flex items-center justify-between">
           <div class="flex items-center gap-2">
@@ -92,8 +92,8 @@ foreach ($habits as $h) {
           </button>
         </form>
       </article>
-    </div>
+    </li>
   <?php endforeach; ?>
-</div>
+</ul>
 
 <?php include 'partials/footer.php'; ?>
