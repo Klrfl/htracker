@@ -56,7 +56,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Register - Habit Tracker</title>
-  <script src="https://cdn.tailwindcss.com"></script>
+
+  <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 </head>
 
 <body class="bg-slate-100 min-h-screen flex items-center justify-center p-4">
@@ -68,37 +70,40 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <?php endif; ?>
 
     <?php if ($sukses): ?>
-      <div class="bg-emerald-100 text-emerald-700 p-3 rounded-lg mb-4 text-sm">
-        <?= htmlspecialchars($sukses) ?> <a href="login.php" class="font-bold underline">Klik di sini untuk Login</a>.
+      <div class="bg-emerald-100 text-emerald-700 p-3 rounded-lg mb-4 text-sm text-center flex flex-col gap-2">
+        <p>
+          <?= htmlspecialchars($sukses) ?>
+        </p>
+        <a href="login.php" class="font-bold underline">Klik di sini untuk Login</a>
       </div>
     <?php endif; ?>
 
     <form method="POST" action="" class="space-y-4">
       <div>
-        <label class="block text-sm font-medium text-slate-700 mb-1">Nama Lengkap (Opsional)</label>
-        <input type="text" name="nama_lengkap" value="<?= htmlspecialchars($_POST['nama_lengkap'] ?? '') ?>" class="w-full border border-slate-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-emerald-500">
+        <label class="label" id="nama_lengkap">Nama Lengkap (Opsional)</label>
+        <input type="text" name="nama_lengkap" id="nama_lengkap" value="<?= htmlspecialchars($_POST['nama_lengkap'] ?? '') ?>" class="input w-full">
       </div>
       <div>
-        <label class="block text-sm font-medium text-slate-700 mb-1">Username</label>
-        <input type="text" name="username" required value="<?= htmlspecialchars($_POST['username'] ?? '') ?>" class="w-full border border-slate-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-emerald-500">
+        <label class="label" for="username">Username</label>
+        <input type="text" name="username" id="username" required value="<?= htmlspecialchars($_POST['username'] ?? '') ?>" class="input w-full">
       </div>
       <div>
-        <label class="block text-sm font-medium text-slate-700 mb-1">Email</label>
-        <input type="email" name="email" required value="<?= htmlspecialchars($_POST['email'] ?? '') ?>" class="w-full border border-slate-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-emerald-500">
+        <label class="label" for="email">Email</label>
+        <input type="email" name="email" id="email" required value="<?= htmlspecialchars($_POST['email'] ?? '') ?>" class="input w-full">
       </div>
       <div>
-        <label class="block text-sm font-medium text-slate-700 mb-1">Password</label>
-        <input type="password" name="password" required class="w-full border border-slate-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-emerald-500">
+        <label class="label" for="password">Password</label>
+        <input type="password" name="password" id="password" required class="input w-full">
       </div>
       <div>
-        <label class="block text-sm font-medium text-slate-700 mb-1">Konfirmasi Password</label>
-        <input type="password" name="konfirmasi_password" required class="w-full border border-slate-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-emerald-500">
+        <label class="label">Konfirmasi Password</label>
+        <input type="password" name="konfirmasi_password" required class="input w-full">
       </div>
-      <button type="submit" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-2.5 rounded-lg transition">Daftar Sekarang</button>
+      <button type="submit" class="btn btn-primary w-full">Daftar Sekarang</button>
     </form>
 
     <p class="text-sm text-center text-slate-600 mt-4">
-      Sudah punya akun? <a href="login.php" class="text-emerald-600 font-semibold hover:underline">Login di sini</a>
+      Sudah punya akun? <a href="login.php" class="text-primary hover:underline">Login di sini</a>
     </p>
   </div>
 </body>

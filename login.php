@@ -57,7 +57,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Login - Habit Tracker</title>
-  <script src="https://cdn.tailwindcss.com"></script>
+
+  <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 </head>
 
 <body class="bg-slate-100 min-h-screen flex items-center justify-center p-4">
@@ -70,18 +72,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     <form method="POST" action="" class="space-y-4">
       <div>
-        <label class="block text-sm font-medium text-slate-700 mb-1">Username atau Email</label>
-        <input type="text" name="identitas" required value="<?= htmlspecialchars($_POST['identitas'] ?? '') ?>" class="w-full border border-slate-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-emerald-500">
+        <label class="label">Username atau Email</label>
+        <input type="text" name="identitas" required value="<?= htmlspecialchars($_POST['identitas'] ?? '') ?>" class="input w-full">
       </div>
       <div>
-        <label class="block text-sm font-medium text-slate-700 mb-1">Password</label>
-        <input type="password" name="password" required class="w-full border border-slate-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-emerald-500">
+        <label class="label">Password</label>
+        <input type="password" name="password" required class="input w-full">
       </div>
-      <button type="submit" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-2.5 rounded-lg transition">Masuk</button>
+      <button type="submit" class="btn btn-primary block w-full">Masuk</button>
     </form>
 
     <p class="text-sm text-center text-slate-600 mt-4">
-      Belum punya akun? <a href="register.php" class="text-emerald-600 font-semibold hover:underline">Daftar sekarang</a>
+      Belum punya akun? <a href="register.php" class="text-primary hover:underline">Daftar sekarang</a>
     </p>
   </div>
 </body>
