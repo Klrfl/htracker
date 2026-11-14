@@ -8,14 +8,18 @@ document.addEventListener('submit', async (e) => {
   const tanggal = form.querySelector('input[name="tanggal"]')?.value ?? e.submitter?.value;
 
   try {
+    const body = new FormData(form);
+    if (e.submitter?.name) body.append(e.submitter.name, e.submitter.value);
+
     const res = await fetch(form.action, {
       method: 'POST',
-      body: new FormData(form),
+      body,
       headers: { 'X-Requested-With': 'fetch' },
     });
     if (!res.ok) throw new Error('gagal');
     const data = await res.json();
     if (data.error) throw new Error(data.error);
+
 
     if (btn) {
       btn.textContent = data.done ? 'Batalkan' : 'Tandai selesai';
