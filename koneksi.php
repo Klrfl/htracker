@@ -3,10 +3,12 @@ if (session_status() === PHP_SESSION_NONE) {
   session_start();
 }
 
-$host = "localhost";
-$user = "root";
-$pass = "";
-$db   = "db_habit_tracker";
+$env = parse_ini_file('.env');
+
+$host = $env['DB_HOST'] ?? "localhost";
+$user = $env['DB_USERNAME'] ?? "root";
+$pass = $env['DB_PASSWORD'] ?? "";
+$db   = $env['DB_NAME'] ?? "db_habit_tracker";
 
 $conn = mysqli_connect($host, $user, $pass, $db);
 
