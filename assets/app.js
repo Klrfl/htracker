@@ -43,6 +43,13 @@ document.addEventListener('submit', async (e) => {
       total.textContent = `${data.total_today}/${total.dataset.total} selesai`;
     }
   } catch {
+    if (e.submitter?.name && !form.querySelector(`input[name="${e.submitter.name}"]`)) {
+      const input = document.createElement('input');
+      input.type = 'hidden';
+      input.name = e.submitter.name;
+      input.value = e.submitter.value;
+      form.appendChild(input);
+    }
     form.submit();
   }
 });
