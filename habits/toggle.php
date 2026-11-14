@@ -1,6 +1,7 @@
 <?php
-require_once '../koneksi.php';
-require_once '../helpers.php';
+require('../koneksi.php');
+require('../helpers.php');
+
 wajib_login();
 
 $hari_ini = date('Y-m-d');

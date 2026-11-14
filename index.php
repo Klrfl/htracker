@@ -1,6 +1,6 @@
 <?php
-require_once 'koneksi.php';
-require_once 'helpers.php';
+require('koneksi.php');
+require('helpers.php');
 wajib_login();
 
 $base = '.';
@@ -47,7 +47,7 @@ foreach ($habits as $h) {
 
 <div class="flex items-center justify-between mb-4">
   <h1 class="text-2xl font-bold">Hari Ini</h1>
-  <span id="total-hari-ini" class="badge badge-primary" data-total="<?= $total_aktif ?>">
+  <span id="total-hari-ini" class="badge" data-total="<?= $total_aktif ?>">
     <?= $selesai_hari_ini ?>/<?= $total_aktif ?> selesai
   </span>
 </div>

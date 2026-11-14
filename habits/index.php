@@ -1,5 +1,5 @@
 <?php
-require_once '../koneksi.php';
+require('../koneksi.php');
 wajib_login();
 
 $base = '..';
