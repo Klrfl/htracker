@@ -1,36 +1,77 @@
 <?php
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-  echo $_POST['nama'];
-  echo $_POST['deskripsi'];
+require_once '../koneksi.php';
+wajib_login();
+
+$base = '..';
+$title = 'Tambah Habit';
+
+$error = '';
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+  $nama = trim($_POST['nama'] ?? '');
+  $deskripsi = trim($_POST['deskripsi'] ?? '');
+  $kategori = $_POST['kategori'] ?? 'Kesehatan';
+  $tanggal_mulai = $_POST['tanggal_mulai'] ?? date('Y-m-d');
+  $bt = DateTime::createFromFormat('Y-m-d', $tanggal_mulai);
+
+  if ($nama === '') {
+    $error = 'Nama habit wajib diisi.';
+  } elseif (!in_array($kategori, KATEGORI, true)) {
+    $error = 'Kategori tidak valid.';
+  } elseif (!$bt || $bt->format('Y-m-d') !== $tanggal_mulai) {
+    $error = 'Tanggal mulai tidak valid.';
+  } else {
+    $tanggal_mulai = $bt->format('Y-m-d');
+    $deskripsi_simpan = $deskripsi !== '' ? $deskripsi : null;
+
+    $stmt = mysqli_prepare($conn, "INSERT INTO habits (user_id, nama_habit, deskripsi, kategori, tanggal_mulai) VALUES (?, ?, ?, ?, ?)");
+    mysqli_stmt_bind_param($stmt, "issss", $_SESSION['user_id'], $nama, $deskripsi_simpan, $kategori, $tanggal_mulai);
+    mysqli_stmt_execute($stmt);
+    mysqli_stmt_close($stmt);
+
+    header('Location: ' . base_url() . '/habits/index.php');
+    exit;
+  }
 }
 ?>
+<?php include '../partials/header.php'; ?>
 
-<!DOCTYPE html>
-<html lang="en">
+<div class="card bg-base-100 shadow-sm max-w-md mx-auto">
+  <div class="card-body">
+    <h1 class="card-title text-xl mb-2">Tambah Habit</h1>
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Habits</title>
+    <?php if ($error): ?>
+      <div class="alert alert-error text-sm"><?= htmlspecialchars($error) ?></div>
+    <?php endif; ?>
 
-  <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
-  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-</head>
+    <form method="post" class="grid gap-4">
+      <div>
+        <label class="label" for="nama">Nama</label>
+        <input type="text" id="nama" name="nama" class="input w-full" required value="<?= htmlspecialchars($_POST['nama'] ?? '') ?>">
+      </div>
 
-<body class="bg-slate-100 min-h-screen flex items-center justify-center p-4">
-  <main class=" w-full max-w-md">
-    <h1 class="text-xl font-bold text-slate-800 mb-6 text-center">Tambah habit baru</h1>
+      <div>
+        <label class="label" for="deskripsi">Deskripsi</label>
+        <textarea id="deskripsi" name="deskripsi" class="textarea w-full"><?= htmlspecialchars($_POST['deskripsi'] ?? '') ?></textarea>
+      </div>
 
-    <form method="post" class="grid gap-4 bg-white rounded-xl px-8 py-4">
-      <label for="nama" class="label">Nama</label>
-      <input type="text" id="nama" name="nama" class="input w-full" required>
+      <div>
+        <label class="label" for="kategori">Kategori</label>
+        <select id="kategori" name="kategori" class="select w-full">
+          <?php foreach (KATEGORI as $k): ?>
+            <option value="<?= $k ?>" <?= ($_POST['kategori'] ?? 'Kesehatan') === $k ? 'selected' : '' ?>><?= $k ?></option>
+          <?php endforeach; ?>
+        </select>
+      </div>
 
-      <label for="deskripsi" class="label">Deskripsi</label>
-      <input type="text" id="deskripsi" name="deskripsi" class="input w-full">
+      <div>
+        <label class="label" for="tanggal_mulai">Tanggal mulai</label>
+        <input type="date" id="tanggal_mulai" name="tanggal_mulai" class="input w-full" value="<?= htmlspecialchars($_POST['tanggal_mulai'] ?? date('Y-m-d')) ?>">
+      </div>
 
       <button type="submit" class="btn btn-primary">Simpan</button>
     </form>
-  </main>
-</body>
+  </div>
+</div>
 
-</html>
+<?php include '../partials/footer.php'; ?>
