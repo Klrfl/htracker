@@ -1,0 +1,6 @@
+  </main>
+
+  <script src="<?= $base ?>/assets/app.js" defer></script>
+</body>
+
+</html>
