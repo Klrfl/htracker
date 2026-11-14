@@ -45,17 +45,17 @@ foreach ($habits as $h) {
 ?>
 <?php include 'partials/header.php'; ?>
 
-<div class="flex items-center justify-between mb-4">
+<header class="flex items-center justify-between mb-4">
   <h1 class="text-2xl font-bold">Hari Ini</h1>
   <span id="total-hari-ini" class="badge" data-total="<?= $total_aktif ?>">
     <?= $selesai_hari_ini ?>/<?= $total_aktif ?> selesai
   </span>
-</div>
+</header>
 
 <?php if (!$habits): ?>
   <div class="card bg-base-100 shadow-sm">
     <div class="card-body">
-      <p>Belum ada habit aktif. <a href="habits/add.php" class="link">Tambah habit pertama</a>.</p>
+      <p>Belum ada habit aktif. <a href="habits/add.php" class="link">Tambah habit pertama</a></p>
     </div>
   </div>
 <?php endif; ?>
@@ -66,14 +66,14 @@ foreach ($habits as $h) {
     $streak = hitung_streak($h['log'], $hari_ini, $h['mulai']);
   ?>
     <div class="card bg-base-100 shadow-sm">
-      <div class="card-body p-4 gap-3">
-        <div class="flex items-center justify-between">
+      <article class="card-body p-4 gap-3">
+        <header class="flex items-center justify-between">
           <div class="flex items-center gap-2">
             <a href="habits/detail.php?id=<?= $h['id'] ?>" class="font-semibold link link-hover"><?= htmlspecialchars($h['nama']) ?></a>
-            <span class="badge badge-ghost badge-sm"><?= htmlspecialchars($h['kategori']) ?></span>
+            <span class="badge badge-sm badge-outline"><?= htmlspecialchars($h['kategori']) ?></span>
           </div>
-          <span class="badge badge-outline badge-sm" data-streak-badge="habit-<?= $h['id'] ?>">🔥 <?= $streak['current'] ?> hari</span>
-        </div>
+          <span class="badge badge-sm" data-streak-badge="habit-<?= $h['id'] ?>">🔥 <?= $streak['current'] ?> hari</span>
+        </header>
 
         <div class="flex items-center gap-1.5">
           <?php foreach ($strip as $d): ?>
@@ -91,7 +91,7 @@ foreach ($habits as $h) {
             <?= $done_today ? 'Batalkan' : 'Tandai selesai' ?>
           </button>
         </form>
-      </div>
+      </article>
     </div>
   <?php endforeach; ?>
 </div>
