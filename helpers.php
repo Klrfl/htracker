@@ -28,11 +28,15 @@ function hitung_streak(array $tanggal_log, string $hari_ini, string $tanggal_mul
     $prev = $d;
   }
 
-  $cursor = in_array($hari_ini, $dates, true) ? $hari_ini : date('Y-m-d', strtotime('-1 day', strtotime($hari_ini)));
+  $kemarin = date('Y-m-d', strtotime('-1 day', strtotime($hari_ini)));
+  $cursor = in_array($hari_ini, $dates, true) ? $hari_ini : $kemarin;
+
   $current = 0;
   while (in_array($cursor, $dates, true)) {
     $current++;
-    $cursor = date('Y-m-d', strtotime('-1 day', strtotime($cursor)));
+
+    $kemarin_cursor = date('Y-m-d', strtotime('-1 day', strtotime($cursor)));
+    $cursor = $kemarin_cursor;
   }
 
   return ['current' => $current, 'longest' => $longest];

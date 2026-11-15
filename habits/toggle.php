@@ -39,16 +39,19 @@ if (!$gagal) {
   $sudah_ada = mysqli_stmt_num_rows($stmt) > 0;
   mysqli_stmt_close($stmt);
 
+  $query = "";
+
+  // toggle log
   if ($sudah_ada) {
-    $stmt = mysqli_prepare($conn, "DELETE FROM habit_logs WHERE habit_id = ? AND tanggal = ?");
-    mysqli_stmt_bind_param($stmt, "is", $habit_id, $tanggal);
-    mysqli_stmt_execute($stmt);
+    $query = "DELETE FROM habit_logs WHERE habit_id = ? AND tanggal = ?";
   } else {
-    $stmt = mysqli_prepare($conn, "INSERT INTO habit_logs (habit_id, tanggal, status) VALUES (?, ?, 'selesai')");
-    mysqli_stmt_bind_param($stmt, "is", $habit_id, $tanggal);
-    mysqli_stmt_execute($stmt);
+    $query = "INSERT INTO habit_logs (habit_id, tanggal, status) VALUES (?, ?, 'selesai')";
     $done = true;
   }
+  $stmt = mysqli_prepare($conn, $query);
+  mysqli_stmt_bind_param($stmt, "is", $habit_id, $tanggal);
+  mysqli_stmt_execute($stmt);
+
   mysqli_stmt_close($stmt);
 
   $stmt = mysqli_prepare($conn, "SELECT tanggal FROM habit_logs WHERE habit_id = ?");
