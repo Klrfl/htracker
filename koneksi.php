@@ -19,11 +19,22 @@ if (!$conn) {
 // Menyesuaikan charset dengan utf8mb4 di database
 mysqli_set_charset($conn, "utf8mb4");
 
-// Fungsi helper untuk memproteksi halaman (dipakai di index.php & detail.php)
+const KATEGORI = ['Kesehatan', 'Olahraga', 'Produktivitas', 'Mental', 'Lainnya'];
+
+function base_url(): string
+{
+  $dir = rtrim(dirname($_SERVER['SCRIPT_NAME']), '/');
+  if (str_ends_with($dir, '/habits')) {
+    $dir = rtrim(dirname($dir), '/');
+  }
+  return $dir === '/' ? '' : $dir;
+}
+
+// Fungsi helper untuk memproteksi halaman (dipakai di index.php, detail.php, dll)
 function wajib_login()
 {
   if (!isset($_SESSION['user_id'])) {
-    header("Location: login.php");
+    header("Location: " . base_url() . "/login.php");
     exit;
   }
 }
