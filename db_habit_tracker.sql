@@ -21,6 +21,7 @@ CREATE TABLE habits (
     user_id INT NOT NULL,
     nama_habit VARCHAR(100) NOT NULL,
     deskripsi TEXT NULL,
+    gambar VARCHAR(255) NULL,
     kategori VARCHAR(50) NOT NULL DEFAULT 'Kesehatan',
     frekuensi ENUM('harian','mingguan') NOT NULL DEFAULT 'harian',
     target_hari INT NOT NULL DEFAULT 30,

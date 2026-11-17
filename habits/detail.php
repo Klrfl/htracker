@@ -7,7 +7,7 @@ $base = '..';
 $hari_ini = date('Y-m-d');
 
 $id = (int)($_GET['id'] ?? 0);
-$stmt = mysqli_prepare($conn, "SELECT id, nama_habit, deskripsi, kategori, tanggal_mulai, is_active FROM habits WHERE id = ? AND user_id = ?");
+$stmt = mysqli_prepare($conn, "SELECT id, nama_habit, deskripsi, kategori, tanggal_mulai, is_active, gambar FROM habits WHERE id = ? AND user_id = ?");
 mysqli_stmt_bind_param($stmt, "ii", $id, $_SESSION['user_id']);
 mysqli_stmt_execute($stmt);
 $habit = mysqli_fetch_assoc(mysqli_stmt_get_result($stmt));
@@ -66,6 +66,10 @@ $next = (clone $bt)->modify('+1 month')->format('Y-m');
   </div>
   <a href="edit.php?id=<?= (int)$habit['id'] ?>" class="btn btn-sm">Edit</a>
 </div>
+
+<?php if ($habit['gambar']): ?>
+  <img src="../uploads/habits/<?= rawurlencode(basename($habit['gambar'])) ?>" alt="Gambar <?= htmlspecialchars($habit['nama_habit']) ?>" class="w-full max-h-80 object-cover rounded-xl mb-4">
+<?php endif; ?>
 
 <?php if ($habit['deskripsi']): ?>
   <p class="text-slate-600 mb-4"><?= htmlspecialchars($habit['deskripsi']) ?></p>
@@ -135,7 +139,9 @@ $next = (clone $bt)->modify('+1 month')->format('Y-m');
       </div>
     </form>
 
-    <p class="text-xs text-slate-500 mt-2">Klik tanggal untuk mencatat atau membatalkan.</p>
+    <?php if ((int)$habit['is_active'] === 1): ?>
+      <p class="text-xs text-slate-500 mt-2">Klik tanggal untuk mencatat atau membatalkan.</p>
+    <?php endif; ?>
   </div>
 </div>
 

@@ -3,7 +3,14 @@ if (session_status() === PHP_SESSION_NONE) {
   session_start();
 }
 
-$env = parse_ini_file('.env');
+$env_file = __DIR__ . '/.env';
+$env = [];
+if (is_file($env_file)) {
+  $env = parse_ini_file($env_file);
+  if ($env === false) {
+    throw new RuntimeException('File .env tidak dapat dibaca atau formatnya tidak valid.');
+  }
+}
 
 $host = $env['DB_HOST'] ?? "localhost";
 $user = $env['DB_USERNAME'] ?? "root";

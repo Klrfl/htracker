@@ -55,17 +55,11 @@ document.addEventListener("submit", async (e) => {
     if (total && data.total_today !== undefined) {
       total.textContent = `${data.total_today}/${total.dataset.total} selesai`;
     }
-  } catch {
-    if (
-      e.submitter?.name &&
-      !form.querySelector(`input[name="${e.submitter.name}"]`)
-    ) {
-      const input = document.createElement("input");
-      input.type = "hidden";
-      input.name = e.submitter.name;
-      input.value = e.submitter.value;
-      form.appendChild(input);
-    }
-    form.submit();
+  } catch (error) {
+    window.alert(
+      error instanceof Error
+        ? `Habit gagal diperbarui: ${error.message}`
+        : "Habit gagal diperbarui. Silakan coba lagi.",
+    );
   }
 });

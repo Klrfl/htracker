@@ -1,5 +1,6 @@
 <?php
 require('../koneksi.php');
+require('../helpers.php');
 wajib_login();
 
 $base = '..';
@@ -23,14 +24,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   } else {
     $tanggal_mulai = $bt->format('Y-m-d');
     $deskripsi_simpan = $deskripsi !== '' ? $deskripsi : null;
+    $hasil_upload = simpan_upload_gambar_habit($_FILES['gambar'] ?? null);
+    $gambar = $hasil_upload['filename'];
+    $error = $hasil_upload['error'] ?? '';
 
-    $stmt = mysqli_prepare($conn, "INSERT INTO habits (user_id, nama_habit, deskripsi, kategori, tanggal_mulai) VALUES (?, ?, ?, ?, ?)");
-    mysqli_stmt_bind_param($stmt, "issss", $_SESSION['user_id'], $nama, $deskripsi_simpan, $kategori, $tanggal_mulai);
-    mysqli_stmt_execute($stmt);
-    mysqli_stmt_close($stmt);
+    if ($error === '') {
+      $stmt = mysqli_prepare($conn, "INSERT INTO habits (user_id, nama_habit, deskripsi, kategori, tanggal_mulai, gambar) VALUES (?, ?, ?, ?, ?, ?)");
+      mysqli_stmt_bind_param($stmt, "isssss", $_SESSION['user_id'], $nama, $deskripsi_simpan, $kategori, $tanggal_mulai, $gambar);
+      $berhasil = mysqli_stmt_execute($stmt);
+      mysqli_stmt_close($stmt);
 
-    header('Location: ' . base_url() . '/habits/index.php');
-    exit;
+      if (!$berhasil) {
+        if ($gambar) {
+          unlink(__DIR__ . '/../uploads/habits/' . $gambar);
+        }
+        $error = 'Habit gagal disimpan. Silakan coba lagi.';
+      } else {
+        header('Location: ' . base_url() . '/habits/index.php');
+        exit;
+      }
+    }
   }
 }
 ?>
@@ -44,7 +57,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       <div class="alert alert-error text-sm"><?= htmlspecialchars($error) ?></div>
     <?php endif; ?>
 
-    <form method="post" class="grid gap-4">
+    <form method="post" enctype="multipart/form-data" class="grid gap-4">
       <div>
         <label class="label" for="nama">Nama</label>
         <input type="text" id="nama" name="nama" class="input w-full" required value="<?= htmlspecialchars($_POST['nama'] ?? '') ?>">
@@ -67,6 +80,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       <div>
         <label class="label" for="tanggal_mulai">Tanggal mulai</label>
         <input type="date" id="tanggal_mulai" name="tanggal_mulai" class="input w-full" value="<?= htmlspecialchars($_POST['tanggal_mulai'] ?? date('Y-m-d')) ?>">
+      </div>
+
+      <div>
+        <label class="label" for="gambar">Gambar habit (opsional)</label>
+        <input type="file" id="gambar" name="gambar" class="file-input w-full" accept="image/jpeg,image/png,image/webp">
+        <p class="text-xs text-slate-500 mt-1">JPG, PNG, atau WebP; maksimal 5 MB.</p>
       </div>
 
       <button type="submit" class="btn btn-primary">Simpan</button>
